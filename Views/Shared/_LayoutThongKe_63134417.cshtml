@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href="/Images/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body class="bg-gray-100 flex flex-col">
+    <nav class="bg-black bg-opacity-70 text-white h-20">
+        <div class="container mx-auto flex items-center justify-between h-full">
+
+            <div class="flex items-center space-x-8 font-bold">
+                @Html.ActionLink("Bàn", "Index", "BANs_63134417", new { tableId = ViewBag.TableId }, new { @class = "hover:text-yellow-500" })
+            </div>
+
+
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <a href="#">
+                    <img src="~/Images/logo.png" alt="Logo" class="h-16 rounded-full">
+                </a>
+            </div>
+
+            <div class="flex space-x-4 items-center">
+                @if (Session["Role"] != null && Session["Role"].ToString() != "Unknown")
+                {
+                    if (Session["Role"].ToString() == "Quản lý")
+                    {
+                        <span>Quản lí: @Session["Ten"]</span>
+                    }
+                    else
+                    {
+                        <span>Nhân Viên: @Session["Ten"]</span>
+                    }
+
+                    <div class="relative">
+                        <button onclick="toggleDropdown()" class="hover:text-yellow-500 focus:outline-none">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-md hidden">
+                            <a href="@Url.Action("DangNhap", "PhanQuyen_63134417")" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a href="@Url.Action("DangNhap", "PhanQuyen_63134417")" class="hover:text-yellow-500 mt-1">Đăng nhập</a>
+                }
+            </div>
+        </div>
+        <hr class="border-t border-gray-700">
+    </nav>
+    <div class="flex">
+        <div class="mt-5 mx-5 h-[256px] w-[256px] bg-white text-black p-4 border-2 rounded-xl shadow">
+            <h1 class="font-bold text-3xl text-center">THỐNG KÊ</h1>
+            <ul class="flex flex-col">
+                <li class="py-2">
+                    @Html.ActionLink("Tổng quan", "TongQuanHoaDon_63134417", "HOADONs_63134417", new { tableId = ViewBag.TableId }, new { @class = "hover:text-yellow-500" })
+                </li>
+                <li class="py-2">
+                    @Html.ActionLink("Hóa Đơn", "ThongKeHoaDon_63134417", "HOADONs_63134417", new { tableId = ViewBag.TableId }, new { @class = "hover:text-yellow-500" })
+                </li>
+                <li class="py-2">
+                    @Html.ActionLink("Menu", "ThongKeMenu_63134417", "MENUs_63134417", new { tableId = ViewBag.TableId }, new { @class = "hover:text-yellow-500" })
+                </li>
+                <li class="py-2">
+                    @Html.ActionLink("Bàn", "ThongKeBan_63134417", "BANs_63134417", new { tableId = ViewBag.TableId }, new { @class = "hover:text-yellow-500" })
+                </li>
+                <li class="py-2">
+                    @Html.ActionLink("Nhân Viên", "ThongKeNhanVien_63134417", "NHANVIENs_63134417", new { tableId = ViewBag.TableId }, new { @class = "hover:text-yellow-500" })
+                </li>
+            </ul>
+        </div>
+        <div class="mt-5 gap-4 p-3 w-[1000px] h-[585px] bg-white border-2 rounded-xl shadow">
+            @RenderBody()
+        </div>
+        <div class="mt-5 mx-5 w-80 h-96 bg-white text-black p-4 border-2 rounded-xl shadow">
+            <h1 class="font-bold text-3xl text-center uppercase">Tìm kiếm</h1>
+            
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById("dropdownMenu");
+        dropdown.classList.toggle("hidden");
+    }
+    document.addEventListener("click", function (event) {
+        const dropdown = document.getElementById("dropdownMenu");
+        const button = event.target.closest("button");
+
+        if (!dropdown.contains(event.target) && !button) {
+            dropdown.classList.add("hidden");
+        }
+    });
+</script>
